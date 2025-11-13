@@ -1,0 +1,120 @@
+{% include "header.html" %}
+
+<style>
+    /* Full Page Background */
+    .bg-image {
+        background: url('/static/images/banner.jpg') no-repeat center center/cover;
+        height: 100vh; /* Full Screen Height */
+        display: flex;
+        justify-content: center; /* Horizontally Center */
+        align-items: center; /* Vertically Center */
+    }
+
+    /* Form Container */
+    .frm {
+        background: rgba(255, 255, 255, 0.85); /* Slight Transparent White */
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+    }
+
+    /* Heading */
+    h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    /* Input Fields */
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        background: #fff;
+    }
+
+    /* Submit Button */
+    .btn-signup {
+        background: #ff6600;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 18px;
+        padding: 10px;
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .btn-signup:hover {
+        background: #cc5200;
+    }
+
+    /* Password Toggle */
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .password-wrapper input {
+        width: 90%;
+        padding-right: 40px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 18px;
+        color: #555;
+    }
+</style>
+
+<center>
+    <div class="bg-image"><br>
+    <div class="frm">
+        <form method="post">
+            {% csrf_token %}
+            <h2>🔹 NEW USER SIGNUP 🔹</h2>
+            {% for field in form %}
+                {{ field.errors }}
+                {% if field.name == "password1" or field.name == "password2" %}
+                    <div class="password-wrapper">
+                        {{ field }}
+                        <span class="toggle-password" onclick="togglePassword('{{ field.auto_id }}')">👁️</span>
+                    </div>
+                {% else %}
+                    <p>{{ field }}</p>
+                {% endif %}
+            {% endfor %}
+            <button class="btn-signup" type="submit">Signup</button><br><br>
+            <span>Already have an account?</span>&nbsp;<a href="{% url 'login' %}">Login</a>
+        </form>
+    </div>
+    </div>
+</center>
+
+<script>
+    function togglePassword(fieldId) {
+        var passwordField = document.getElementById(fieldId);
+        var toggleIcon = passwordField.nextElementSibling;
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.innerHTML = "🙈";
+        } else {
+            passwordField.type = "password";
+            toggleIcon.innerHTML = "👁️";
+        }
+    }
+</script>
+
+{% include "footer.html" %}

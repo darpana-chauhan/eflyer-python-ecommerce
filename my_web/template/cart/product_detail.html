@@ -1,0 +1,97 @@
+{% include "header.html" %}
+
+<style>
+    /* Product Image */
+    .product-image {
+        width: 100%;  /* Full Width */
+        max-width: 400px;  /* Maximum Width */
+        height: 350px;
+        border-radius: 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .product-image:hover {
+        transform: scale(1.05);
+    }
+
+
+    /* Product Details Box (Only Right Side Background) */
+    .product-details {
+        background: #f8f9fa; /* Light Grey Background */
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Buttons */
+    .btn-custom {
+        font-size: 18px;
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
+
+    .btn-custom:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <!-- Left Side - Product Image -->
+        <div class="col-md-6 text-center">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image shadow-lg">
+        </div>
+
+        <!-- Right Side - Product Details (Background Applied) -->
+        <div class="col-md-6">
+            <div class="product-details">
+                <h2 class="text-primary fw-bold">{{ product.name }}</h2>
+                <p class="text-muted"><strong>Price:</strong> <span class="text-danger fs-3 fw-bold">₹{{ product.price }}</span></p>
+                <p class="lead"><strong>Description:</strong></p>
+                <p id="formatted-description" class="lead"></p>
+
+                <form method="post" action="{% if user.is_authenticated %}{% url 'add_to_cart' product.id %}{% else %}{% url 'login' %}?next={{ request.path }}{% endif %}" class="mt-4">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label fw-bold">Quantity:</label>
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control w-50 d-inline border-dark" required>
+                    </div>
+                    <p class="fw-bold fs-4 text-success">Total Price: ₹<span id="total-price">{{ product.price }}</span></p>
+                    <button type="submit" class="btn btn-success ">
+                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                    </button>
+                </form>
+
+                <a href="{% url 'homePage' %}" class="btn btn-primary mt-3 ">
+                    <i class="fa fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Format Description with Line Breaks
+        let description = "{{ product.description|escapejs }}";
+        let formattedDescription = description.replace(/\.\s*/g, ".<br>");
+        $("#formatted-description").html(formattedDescription);
+
+        // Quantity Input Calculation
+        $("#quantity").on("input", function() {
+            let quantity = parseInt($(this).val());  // Get quantity
+            let price = parseFloat("{{ product.price }}");  // Get product price
+
+            if (quantity < 1) {  // Prevent negative quantity
+                quantity = 1;
+                $(this).val(1);
+            }
+
+            let totalPrice = (quantity * price).toFixed(2);  // Calculate total price
+            $("#total-price").text(totalPrice);  // Update total price
+        });
+    });
+</script>
+<br><br>
+{% include "footer.html" %}

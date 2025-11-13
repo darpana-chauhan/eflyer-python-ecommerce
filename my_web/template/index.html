@@ -1,0 +1,65 @@
+{% include "header.html" %}
+
+<!-- Hero Banner Section -->
+<div class="container-fluid px-0">
+    <img src="/static/images/banner.jpg" class="img-fluid w-100" alt="Eflyer Banner" style="max-height: 500px; object-fit: cover;">
+</div>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="row">
+        {% for prod in product %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <img src="{{ prod.image.url }}" class="card-img-top" alt="{{ prod.name }}" style="height: 400px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title product-name">{{ prod.name }}</h5>
+                    <p class="card-text text-muted">Price: ₹{{ prod.price }}</p>
+                    <a href="{% if user.is_authenticated %}{% url 'buy_now' prod.id %}{% else %}{% url 'login' %}?next={{ request.path }}{% endif %}"  class="btn btn-warning custom-btn">Buy Now</a>
+                    <a href="{% url 'product_detail' prod.id %}" class="btn btn-secondary custom-btn">See More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include "footer.html" %}
+
+<style>
+    /* Product Card Design */
+    .card {
+        transition: 0.3s ease-in-out;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .card:hover {
+        transform: scale(1.03);
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Product Name Styling */
+    .product-name {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Button Styling with Hover Effect */
+    .custom-btn {
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: 0.3s ease-in-out;
+    }
+    .btn-warning.custom-btn:hover {
+        background-color: #ff8c00;
+        color: white;
+        transform: scale(1.1);
+    }
+    .btn-secondary.custom-btn:hover {
+        background-color: #555;
+        color: white;
+        transform: scale(1.1);
+    }
+</style>

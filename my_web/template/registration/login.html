@@ -1,0 +1,140 @@
+{% include "header.html" %}
+
+<style>
+    /* Global Styling */
+    .bg-image {
+        background: url('/static/images/banner.jpg') no-repeat center center/cover;
+        height: 100vh; /* Full Screen Height */
+        display: flex;
+        justify-content: center; /* Horizontally Center */
+        align-items: center; /* Vertically Center */
+    }
+
+    /* Form Container */
+    .frm {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 450px;
+        text-align: left;
+        margin-top: 50px;
+    }
+
+    /* Heading */
+    h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    /* Input Fields */
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin: px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        background: #fff;
+    }
+
+    /* Success Message */
+    .success-message {
+        color: green;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    /* Password Wrapper */
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .password-wrapper input {
+        width: 90%;
+        padding-right: 40px;
+        margin-left:20px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 18px;
+        color: #555;
+    }
+
+    /* Login Button and Forgot Password in One Row */
+    .login-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    .login-footer a {
+        text-decoration: none;
+        font-size: 14px;
+
+    }
+
+    .btn-dark {
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        margin-left:20px;
+        width:200px;
+    }
+</style>
+
+<center>
+    <div class="bg-image">
+    <div class="frm">
+        <form method="post" action="{% url 'login' %}?next={% url 'homePage' %}">
+            {% csrf_token %}
+            <h2>🔹 USER LOGIN 🔹</h2>
+            {% for field in form %}
+                {{ field.errors }}
+                <label><b>&nbsp;&nbsp;&nbsp;&nbsp;{{ field.label_tag }}</b></label>
+                {% if field.name == "password" %}
+                    <div class="password-wrapper">
+                        {{ field }}
+                        <span class="toggle-password" onclick="togglePassword('{{ field.auto_id }}')">👁️</span>
+                    </div>
+                {% else %}
+                    <p>{{ field }}</p>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Forgot Password & Login Button in the Same Row -->
+                <a href="{% url 'password_reset' %}" style="float:right"><b>Forgot Password?</b></a><br>
+                <button class="btn btn-dark" type="submit">Login</button>
+
+
+            <br><br>
+            <center><a href="{% url 'signup' %}" style="color:gray;"><b>Create your account &nbsp; &rarr;</b></a></center>
+        </form>
+    </div>
+    </div>
+</center>
+
+<script>
+    function togglePassword(fieldId) {
+        var passwordField = document.getElementById(fieldId);
+        var toggleIcon = passwordField.nextElementSibling;
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.innerHTML = "🙈"; // Change icon to hide
+        } else {
+            passwordField.type = "password";
+            toggleIcon.innerHTML = "👁️"; // Change icon to show
+        }
+    }
+</script>
+{% include "footer.html" %}

@@ -1,0 +1,169 @@
+{% include "header.html" %}
+
+<style>
+    /* Global Styling */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Contact Us Section */
+    .contact-container {
+        background: url('/static/images/contact-1.jpg') no-repeat center center/cover;
+        height: 450px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        color: white;
+        padding: 50px;
+    }
+
+    .contact-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .contact-content {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .contact-content h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ff6600;
+    }
+
+    .contact-content p {
+        font-size: 1.2rem;
+        color: #333;
+        line-height: 1.8;
+    }
+
+    /* Contact Form */
+    .contact-form {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        margin-top: 30px;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .contact-form button {
+        width: 100%;
+        background: #ff6600;
+        color: white;
+        border: none;
+        padding: 12px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .contact-form button:hover {
+        background: #cc5500;
+    }
+
+    /* Contact Info */
+    .contact-info {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .contact-info h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #ff6600;
+    }
+
+    .contact-info p {
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .contact-info i {
+        font-size: 1.8rem;
+        margin-right: 10px;
+        color: #ff6600;
+    }
+
+    /* Location Section */
+    .location-section {
+        text-align: center;
+        padding: 50px 0;
+        background-color: #f8f9fa;
+    }
+
+    .location-section iframe {
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        height: 350px;
+    }
+</style>
+
+<!-- Contact Us Section -->
+<div class="contact-container">
+</div>
+
+<div class="contact-content" style="margin: 50px auto; max-width: 900px; text-align: center;">
+    <h2></h2>
+    <p>Have questions or need help? Get in touch with us and our team will assist you as soon as possible.</p>
+</div>
+
+<!-- Contact Form -->
+<div class="contact-form">
+    <h3 class="text-center mb-4">Get in Touch</h3>
+    <form method="POST" action="{% url 'contact' %}">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</div>
+
+<!-- Contact Info -->
+<div class="contact-info">
+    <h3>📞 Contact Information</h3>
+    <p><i class="fa fa-phone"></i> +1 234 567 890</p>
+    <p><i class="fa fa-envelope"></i> support@eflyer.com</p>
+    <p><i class="fa fa-map-marker-alt"></i> 123, Eflyer Street, New York, USA</p>
+</div>
+
+<!-- Location Section -->
+<div class="location-section">
+    <h3>📍 Our Location</h3>
+    <iframe src="https://www.google.com/maps/embed?..." allowfullscreen loading="lazy"></iframe>
+</div>
+
+{% include "footer.html" %}

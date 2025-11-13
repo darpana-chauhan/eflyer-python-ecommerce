@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eflyer - Stylish eCommerce</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Navbar Styling */
+        .navbar {
+            background: #222;
+            padding: 15px 0;
+        }
+        .navbar .nav-link {
+            color: white !important;
+            font-weight: ;
+            font-size: 15px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+        }
+
+        /* Dropdown menu styling */
+        .navbar .dropdown-menu {
+            background: #333;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: 180px;
+            padding: 8px 0;
+        }
+
+        /* Dropdown link styling */
+        .navbar .dropdown-item {
+            font-size: 14px;
+            font-weight: 500;
+            color: white !important;
+            padding: 10px 15px;
+            transition: background 0.3s ease-in-out, color 0.3s;
+        }
+
+        /* Hover effect on dropdown items */
+        .navbar .dropdown-item:hover {
+            background: #ff6600;
+            color: #000 !important;
+            border-radius: 3px;
+        }
+
+        /* Dropdown hover effect (open on hover) */
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+        }
+
+        .cart-count {
+            background: red;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: #222;
+            color: white;
+            padding: 40px 0;
+        }
+        .footer a {
+            color: #ff6600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .social-icons i {
+            font-size: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .social-icons i:hover {
+            color: #ff6600;
+        }
+        .logo-img {
+            height: 80px; /* Navbar ki height jitni set karein */
+            width: auto;  /* Aspect ratio maintain karega */
+            max-height: 100%; /* Ensure height does not exceed navbar */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a href="index.html"><img src="/static/images/logo.png"></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Home -->
+                <li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
+
+                <!-- More Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">MORE</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/about/">ABOUT US</a></li>
+                        <li><a class="dropdown-item" href="{% url 'contact' %}">CONTACT US</a></li>
+                    </ul>
+                </li>
+
+                <!-- Dynamic Categories -->
+                {% for cat in category %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="{{cat.id}}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{cat.name}}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="{{cat.id}}">
+                        {% for i in cat.sub_category_set.all %}
+                        <a class="dropdown-item nav-link" href="/?category={{cat.id}}&sub_category={{i.id}}">{{i.name}}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+                {% endfor %}
+                </ul>
+                <!-- Registration -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">REGISTRATION</a></li>
+
+                <!-- Login / Logout -->
+                {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">LOGOUT</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">LOGIN</a></li>
+                {% endif %}
+
+                <!-- Cart -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'cart_detail' %}">
+                    <i class="fa fa-shopping-cart"></i> CART <span class="cart-count">{{ cart_count }}</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
