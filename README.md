@@ -54,5 +54,13 @@ Through this project, I learned:
 
 ---
 
-⭐ *If you liked this project, don’t forget to star this repository!*  
-💬 *Feedback and suggestions are always welcome!*
+## 👩‍💻 Author
+
+**Darpana Chauhan**  
+Aspiring Data Scientist | BCA Student  
+GitHub: https://github.com/darpana-chauhan
+
+---
+
+⭐ *If you find this project useful, feel free to star the repository!*
+*Feedback and suggestions are always welcome!*
